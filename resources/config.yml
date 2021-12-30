@@ -17,7 +17,7 @@ worlds:
       zombies:
         spawnLimit: 512
         burnInDaylight: false
-        health: 25.0
+        max-health: 20.0
         speedMultiplier: 1.2
         damageMultiplier: 2
         hordeInstinct: true
@@ -35,11 +35,5 @@ regions:
     - aRegionThatHasFallout
   noFallout:
     - aRegionThatHasNoFallout
-meta:
-  #Do not edit version
-  version: @version@
-  version-check: true
-  auto-update: true
-  show-download-progress: true
   #True to use permissions. False defaults to requiring op for most commands.
   permissions: false

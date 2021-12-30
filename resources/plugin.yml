@@ -1,9 +1,9 @@
 name: Apocalyptic
 main: me.Coderforlife.Apocalyptic.Apocalyptic
-version: 2.3.0
+version: 2.4.0
 author: [awesomefacecreeper,xxCoderforlife]
-description: Apocalyptic world generator, radiation manager, zombie apocalypses and more.
-load: startup
+description: Apocalyptic radiation manager, zombie apocalypses and more.
+load: POSTWORLD
 api-version: 1.13
 soft-depend: [WorldGuard]
 prefix: Apocalyptic

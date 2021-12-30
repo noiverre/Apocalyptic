@@ -68,7 +68,7 @@ public class Apocalyptic extends JavaPlugin {
     private ItemStack hazmatPants;
     private ItemStack hazmatBoots;
 
-    private RadiationManager radiationManager;
+    private RadiationManager rads;
 
     private ApocalypticConfiguration cachedConfig;
     private boolean recacheConfig;
@@ -76,6 +76,7 @@ public class Apocalyptic extends JavaPlugin {
     
     @Override
     public void onEnable(){
+    	rads = new RadiationManager(this);
     	messages = new Messages(this);
         //acidRain.setCustomName("Acid Rain");
         log = getLogger();
@@ -243,7 +244,7 @@ public class Apocalyptic extends JavaPlugin {
      * @return The Radiation Manager object.
      */
     public RadiationManager getRadiationManager() {
-        return radiationManager;
+        return rads;
     }
 
     /**

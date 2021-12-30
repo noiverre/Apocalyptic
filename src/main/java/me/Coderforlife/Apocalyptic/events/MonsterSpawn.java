@@ -40,17 +40,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class MonsterSpawn implements Listener {
     private final Apocalyptic a;
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onEntitySpawn(CreatureSpawnEvent event){
-        LivingEntity entity = event.getEntity();
-
-        if (entity.getType() == EntityType.ZOMBIE && a.worldEnabledZombie(entity.getLocation().getWorld().getName())){
-        	Zombie z = (Zombie) event.getEntity();
-        	z.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(a.getConfig().getDouble("mobs.zombies.speedMultiplier"));
-        }
-    }
-
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onMonsterSpawn(CreatureSpawnEvent e) {
         
         if (e.getEntityType() == EntityType.ZOMBIE && a.worldEnabledZombie(e.getLocation().getWorld().getName())) {
@@ -61,13 +51,9 @@ public class MonsterSpawn implements Listener {
         	}
             
             Location l = e.getLocation();
-            if (a.getRandom().nextInt(300) == 0 && a.getConfig().getWorld(e.getLocation().getWorld()).getBoolean("mobs.mutants.zombie")) {
-                e.setCancelled(true);
-                l.getWorld().spawnEntity(l, EntityType.GIANT);
-                return;
-            }
-            e.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(a.getConfig().getDouble("mobs.zombies.health"));
-            e.getEntity().setHealth(a.getConfig().getWorld(e.getEntity().getWorld()).getDouble("mobs.zombies.health"));
+            e.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue
+              (a.getConfig().getWorld(e.getEntity().getWorld()).getDouble("mobs.zombies.max-health"));
+           //e.getEntity().getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(a.getConfig().getDouble("mobs.zombies.speedMultiplier"));
             
             if (e.getSpawnReason() != SpawnReason.CUSTOM && e.getSpawnReason() != SpawnReason.SPAWNER) {
                 int hordeSize = a.getRandom().nextInt(
@@ -75,12 +61,14 @@ public class MonsterSpawn implements Listener {
                         a.getConfig().getWorld(e.getEntity().getWorld()).getInt("mobs.zombies.hordeSize.min")) + 
                         a.getConfig().getWorld(e.getEntity().getWorld()).getInt("mobs.zombies.hordeSize.min");
                 int failedAttempts = 0;
+                
+                //Just Horde Spawning.
                 for (int i=0;i<hordeSize;) {
                     // TODO make point selection better
                     int spotX = 7-a.getRandom().nextInt(14);
                     int spotZ = 7-a.getRandom().nextInt(14);
                     //int spotY = 3-a.getRandom().nextInt(6);
-                    Location spawnPoint = l.add(spotX, 0/*spotY*/, spotZ);
+                    Location spawnPoint = l.add(spotX, 0 /*spotY*/, spotZ);
                     spawnPoint.setY(l.getWorld().getHighestBlockYAt(spotX, spotZ));
                     if (!ZombieHelper.canZombieSpawn(spawnPoint) && failedAttempts <= 10) {
                     	failedAttempts++;
@@ -90,7 +78,7 @@ public class MonsterSpawn implements Listener {
                     Zombie zombie = (Zombie) l.getWorld().spawnEntity(spawnPoint, EntityType.ZOMBIE);
                     EntityEquipment equipment = zombie.getEquipment();
                     if (equipment.getHelmet() != null && zombie.isAdult() && !a.getConfig().getWorld(zombie.getWorld()).getBoolean("mobs.zombies.burnInDaylight")) {
-                        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+                        ItemStack head = new ItemStack(Material.WITHER_SKELETON_SKULL);
                         equipment.setHelmet(head);
                         equipment.setHelmetDropChance(0f);
                     }

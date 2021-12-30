@@ -51,8 +51,12 @@ public class Messages {
 		{
 			this.plugin.saveResource("lang.yml", false);
 		}
-		config = new YamlConfiguration();
+		reload();
 		
+		
+	}
+	public void reload() {
+		config = new YamlConfiguration();
 		try {
 			config.load(configFile);
 		} catch (FileNotFoundException e) {
@@ -65,8 +69,6 @@ public class Messages {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
 	 
 	public String getCaption(String name)
