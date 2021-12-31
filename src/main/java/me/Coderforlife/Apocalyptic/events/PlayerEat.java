@@ -32,7 +32,7 @@ import org.bukkit.inventory.ItemStack;
  * @author Nick
  */
 public class PlayerEat implements Listener {
-    private final Apocalyptic a;
+    private final Main a;
     @EventHandler
     public void onPlayerEat(final PlayerItemConsumeEvent e) {
     	boolean isCure = false;
@@ -58,7 +58,7 @@ public class PlayerEat implements Listener {
         }
         
     }
-    public PlayerEat(Apocalyptic a) {
+    public PlayerEat(Main a) {
         this.a = a;
     }
 }

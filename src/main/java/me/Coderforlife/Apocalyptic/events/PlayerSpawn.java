@@ -29,8 +29,8 @@ import me.Coderforlife.Apocalyptic.*;
  * @author Nick
  */
 public class PlayerSpawn implements Listener {
-    private final Apocalyptic a;
-    public PlayerSpawn(Apocalyptic a) {
+    private final Main a;
+    public PlayerSpawn(Main a) {
         this.a = a;
     }
     @EventHandler

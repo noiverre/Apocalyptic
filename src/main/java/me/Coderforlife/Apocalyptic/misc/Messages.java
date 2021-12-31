@@ -28,15 +28,15 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import me.Coderforlife.Apocalyptic.Apocalyptic;
+import me.Coderforlife.Apocalyptic.Main;
 
 public class Messages {
-	private Apocalyptic plugin = null;
+	private Main plugin = null;
 	 
 	private File configFile = null;
 	private FileConfiguration config = null;
 	 
-	public Messages(Apocalyptic plugin)
+	public Messages(Main plugin)
 	{
 		this.plugin = plugin;
 		this.configFile = new File(this.plugin.getDataFolder(), "lang.yml");

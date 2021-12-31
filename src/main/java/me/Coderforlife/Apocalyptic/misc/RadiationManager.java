@@ -25,8 +25,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
 public class RadiationManager {
-    private final Apocalyptic apocalyptic;
-    public RadiationManager(Apocalyptic apocalyptic) {
+    private final Main apocalyptic;
+    public RadiationManager(Main apocalyptic) {
         this.apocalyptic = apocalyptic;
     }
 

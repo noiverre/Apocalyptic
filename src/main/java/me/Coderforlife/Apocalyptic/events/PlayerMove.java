@@ -30,8 +30,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
  * @author Nick
  */
 public class PlayerMove implements Listener {
-    private final Apocalyptic a;
-    public PlayerMove(Apocalyptic a) {
+    private final Main a;
+    public PlayerMove(Main a) {
         this.a = a;
     }
     @EventHandler

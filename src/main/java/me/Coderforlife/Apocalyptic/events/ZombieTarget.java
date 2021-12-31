@@ -30,7 +30,7 @@ import org.bukkit.event.entity.EntityTargetEvent;
  * @author Nick
  */
 public class ZombieTarget implements Listener {
-    private final Apocalyptic a;
+    private final Main a;
     @EventHandler
     public void onEntityTarget(EntityTargetEvent e) {
         if (!(e.getEntityType() == EntityType.ZOMBIE)
@@ -58,7 +58,7 @@ public class ZombieTarget implements Listener {
             }
         }
     }
-    public ZombieTarget(Apocalyptic a) {
+    public ZombieTarget(Main a) {
         this.a = a;
     }
 }

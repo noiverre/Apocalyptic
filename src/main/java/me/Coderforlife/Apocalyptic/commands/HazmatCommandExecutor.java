@@ -29,9 +29,9 @@ import org.bukkit.entity.Player;
 
 public class HazmatCommandExecutor implements CommandExecutor {
 
-    private Apocalyptic plugin;
+    private Main plugin;
 
-    public HazmatCommandExecutor(Apocalyptic plugin) {
+    public HazmatCommandExecutor(Main plugin) {
         this.plugin = plugin;
     }
 

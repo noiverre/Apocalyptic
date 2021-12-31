@@ -21,6 +21,7 @@ package me.Coderforlife.Apocalyptic.events;
 
 import me.Coderforlife.Apocalyptic.*;
 import me.Coderforlife.Apocalyptic.misc.ZombieHelper;
+import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -39,7 +40,7 @@ import org.bukkit.inventory.ItemStack;
  * @author Nick
  */
 public class MonsterSpawn implements Listener {
-    private final Apocalyptic a;
+    private final Main a;
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onMonsterSpawn(CreatureSpawnEvent e) {
         
@@ -51,8 +52,12 @@ public class MonsterSpawn implements Listener {
         	}
             
             Location l = e.getLocation();
-            e.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue
+            Zombie zom = (Zombie) e.getEntity();
+            zom.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue
               (a.getConfig().getWorld(e.getEntity().getWorld()).getDouble("mobs.zombies.max-health"));
+            zom.setCustomName(ChatColor.translateAlternateColorCodes('&', "   &2&l&oZOMBIE   "));
+            zom.setCustomNameVisible(true);
+            
            //e.getEntity().getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(a.getConfig().getDouble("mobs.zombies.speedMultiplier"));
             
             if (e.getSpawnReason() != SpawnReason.CUSTOM && e.getSpawnReason() != SpawnReason.SPAWNER) {
@@ -89,7 +94,7 @@ public class MonsterSpawn implements Listener {
             
         }
     }
-    public MonsterSpawn(Apocalyptic a) {
+    public MonsterSpawn(Main a) {
         this.a = a;
     }
 }

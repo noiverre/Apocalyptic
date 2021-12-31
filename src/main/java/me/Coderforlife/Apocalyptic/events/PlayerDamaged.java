@@ -20,6 +20,7 @@
 package me.Coderforlife.Apocalyptic.events;
 
 import me.Coderforlife.Apocalyptic.*;
+
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,7 +35,7 @@ import org.bukkit.potion.PotionEffectType;
  * @author Nick
  */
 public class PlayerDamaged implements Listener {
-    private final Apocalyptic a;
+    private final Main a;
     @EventHandler
     public void onPlayerDamagedByEntity(EntityDamageByEntityEvent e) {
         if (e.getEntityType() == EntityType.PLAYER) {
@@ -69,7 +70,7 @@ public class PlayerDamaged implements Listener {
             }
         }
     }
-    public PlayerDamaged(Apocalyptic a) {
+    public PlayerDamaged(Main a) {
         this.a = a;
     } 
 }

@@ -30,10 +30,10 @@ import org.bukkit.command.CommandSender;
  * @author Nick
  */
 public class ApocalypticCommandExecutor implements CommandExecutor {
-    private final Apocalyptic a;
+    private final Main a;
     private final String[] radiationHelp;
 
-    public ApocalypticCommandExecutor(Apocalyptic aThis) {
+    public ApocalypticCommandExecutor(Main aThis) {
         this.a = aThis;
         radiationHelp = new String[] {
                 ChatColor.DARK_BLUE + " ======= " + ChatColor.AQUA + "RADIATION" + ChatColor.DARK_BLUE + " ======= ",

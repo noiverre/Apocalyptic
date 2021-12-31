@@ -29,12 +29,12 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
  * @author Nick
  */
 public class PlayerChangeWorld implements Listener {
-    private final Apocalyptic a;
+    private final Main a;
     @EventHandler
     public void onPlayerChangeWorld(PlayerChangedWorldEvent e) {
         a.sendApocalypticTexturePack(e.getPlayer());
     }
-    public PlayerChangeWorld(Apocalyptic a) {
+    public PlayerChangeWorld(Main a) {
         this.a = a;
     }
 }

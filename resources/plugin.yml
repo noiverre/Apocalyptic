@@ -1,6 +1,6 @@
 name: Apocalyptic
-main: me.Coderforlife.Apocalyptic.Apocalyptic
-version: 2.4.0
+main: me.Coderforlife.Apocalyptic.Main
+version: 2.4.2
 author: [awesomefacecreeper,xxCoderforlife]
 description: Apocalyptic radiation manager, zombie apocalypses and more.
 load: POSTWORLD

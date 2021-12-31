@@ -33,9 +33,9 @@ import java.text.DecimalFormat;
  * @author Nick
  */
 public class RadiationCommandExecutor implements CommandExecutor {
-    private final Apocalyptic a;
+    private final Main a;
     private final DecimalFormat fmt;
-    public RadiationCommandExecutor(Apocalyptic a) {
+    public RadiationCommandExecutor(Main a) {
         this.a = a;
         fmt = new DecimalFormat("0.#");
     }
