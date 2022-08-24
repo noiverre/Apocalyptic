@@ -55,8 +55,8 @@ public class MonsterSpawn implements Listener {
             Zombie zom = (Zombie) e.getEntity();
             zom.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue
               (a.getConfig().getWorld(e.getEntity().getWorld()).getDouble("mobs.zombies.max-health"));
-            zom.setCustomName(ChatColor.translateAlternateColorCodes('&', "   &2&l&oZOMBIE   "));
-            zom.setCustomNameVisible(true);
+            //zom.setCustomName(ChatColor.translateAlternateColorCodes('&', "&2Zombie"));
+            //zom.setCustomNameVisible(true);
             
            //e.getEntity().getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(a.getConfig().getDouble("mobs.zombies.speedMultiplier"));
             
@@ -70,23 +70,26 @@ public class MonsterSpawn implements Listener {
                 //Just Horde Spawning.
                 for (int i=0;i<hordeSize;) {
                     // TODO make point selection better
-                    int spotX = 7-a.getRandom().nextInt(14);
-                    int spotZ = 7-a.getRandom().nextInt(14);
+                    int spotX = 7-a.getRandom().nextInt(16); //was 14
+                    int spotZ = 7-a.getRandom().nextInt(16); //was 14
                     //int spotY = 3-a.getRandom().nextInt(6);
-                    Location spawnPoint = l.add(spotX, 0 /*spotY*/, spotZ);
+                    Location spawnPoint = l.add(spotX, 1/*spotY*/, spotZ);
                     spawnPoint.setY(l.getWorld().getHighestBlockYAt(spotX, spotZ));
+                    spawnPoint.add(0,1,0);
                     if (!ZombieHelper.canZombieSpawn(spawnPoint) && failedAttempts <= 10) {
                     	failedAttempts++;
                     	continue;
                     }
                     failedAttempts = 0;
                     Zombie zombie = (Zombie) l.getWorld().spawnEntity(spawnPoint, EntityType.ZOMBIE);
+                    /*
                     EntityEquipment equipment = zombie.getEquipment();
-                    if (equipment.getHelmet() != null && zombie.isAdult() && !a.getConfig().getWorld(zombie.getWorld()).getBoolean("mobs.zombies.burnInDaylight")) {
-                        ItemStack head = new ItemStack(Material.WITHER_SKELETON_SKULL);
+                    if (equipment.getHelmet() != null && !zombie.isBaby() && !a.getConfig().getWorld(zombie.getWorld()).getBoolean("mobs.zombies.burnInDaylight")) {
+                        ItemStack head = new ItemStack(Material.IRON_HELMET);
                         equipment.setHelmet(head);
                         equipment.setHelmetDropChance(0f);
                     }
+                    */
                     i++;
                     
                 }

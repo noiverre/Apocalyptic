@@ -25,16 +25,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityCombustByBlockEvent;
 import org.bukkit.event.entity.EntityCombustByEntityEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 
 public class ZombieCombust implements Listener {
 	private final Main plugin;
 	@EventHandler
 	public void onZombieBurn(EntityCombustEvent e) {
-		if (plugin.worldEnabledZombie(e.getEntity().getWorld().getName()) 
-				&& plugin.getConfig().getWorld(e.getEntity().getWorld()).getBoolean("mobs.zombies.burnInDaylight")) {
-			if (!(e instanceof EntityCombustByEntityEvent) && !(e instanceof EntityCombustByBlockEvent)) {
-				e.setCancelled(true);
-			}
+		if (!(e instanceof EntityCombustByEntityEvent) && !(e instanceof EntityCombustByBlockEvent)) {
+			e.setCancelled(true);
 		}
 	}
 	public ZombieCombust(Main p) {
