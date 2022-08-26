@@ -2,3 +2,6 @@
 /build/*
 /nbproject/*
 /.idea/*
+/out/
+/target/
+/Apocalyptic.iml
