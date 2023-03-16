@@ -48,6 +48,7 @@ import me.Coderforlife.Apocalyptic.events.PlayerMove;
 import me.Coderforlife.Apocalyptic.events.PlayerSpawn;
 import me.Coderforlife.Apocalyptic.events.ZombieCombust;
 import me.Coderforlife.Apocalyptic.events.ZombieTarget;
+import me.Coderforlife.Apocalyptic.events.HardDespawn;
 import me.Coderforlife.Apocalyptic.misc.ApocalypticConfiguration;
 import me.Coderforlife.Apocalyptic.misc.Messages;
 import me.Coderforlife.Apocalyptic.misc.RadiationManager;
@@ -123,6 +124,7 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerChangeWorld(this), this);
         getServer().getPluginManager().registerEvents(new ZombieTarget(this), this);
         getServer().getPluginManager().registerEvents(new ZombieCombust(this), this);
+        getServer().getPluginManager().registerEvents(new HardDespawn(this), this);
         
     }
  

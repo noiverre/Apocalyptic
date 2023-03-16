@@ -1,7 +1,7 @@
 name: Apocalyptic
 main: me.Coderforlife.Apocalyptic.Main
 version: 2.4.2
-author: [awesomefacecreeper,xxCoderforlife]
+author: awesomefacecreeper,xxCoderforlife
 description: Apocalyptic radiation manager, zombie apocalypses and more.
 load: POSTWORLD
 api-version: 1.13

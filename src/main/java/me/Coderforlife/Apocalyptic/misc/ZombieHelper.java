@@ -22,6 +22,7 @@ package me.Coderforlife.Apocalyptic.misc;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Zombie;
 
 public class ZombieHelper {
 	@SuppressWarnings("deprecation")
@@ -30,13 +31,22 @@ public class ZombieHelper {
 		int x = l.getBlockX();
 		int y = l.getBlockY();
 		int z = l.getBlockZ();
-        boolean playerTooClose = false;
-        for (Player p : w.getEntitiesByClass(Player.class)) {
-            if (p.getLocation().distance(l) < 16) { //was 16
-                playerTooClose = true;
-                break;
-            }
-        }
+		boolean playerTooClose = false;
+		int zombieCount = 0;
+		for (Player p : w.getEntitiesByClass(Player.class)) {
+			if (p.getLocation().distance(l) < 16) {
+				playerTooClose = true;
+				break;
+			}
+		}
+		for (Zombie zombie : w.getEntitiesByClass(Zombie.class)) {
+			if (zombie.getLocation().distance(l) < 16) {
+				zombieCount++;
+				if (zombieCount >= 16) {
+					return false;
+				}
+			}
+		}
 		return 
 				w.getBlockAt(l).getLightLevel() <= 7
                 && !w.getBlockAt(x, y, z).getType().isTransparent()
