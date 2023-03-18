@@ -36,11 +36,14 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class PlayerDamaged implements Listener {
     private final Main a;
+
     @EventHandler
     public void onPlayerDamagedByEntity(EntityDamageByEntityEvent e) {
         if (e.getEntityType() == EntityType.PLAYER) {
-            if (a.worldEnabledZombie(e.getEntity().getWorld().getName()) && e.getDamager().getType() == EntityType.ZOMBIE) {
-                e.setDamage(e.getDamage() * a.getConfig().getWorld(e.getEntity().getWorld()).getInt("mobs.zombies.damageMultiplier"));
+            if (a.worldEnabledZombie(e.getEntity().getWorld().getName())
+                    && e.getDamager().getType() == EntityType.ZOMBIE) {
+                e.setDamage(e.getDamage()
+                        * a.getConfig().getWorld(e.getEntity().getWorld()).getInt("mobs.zombies.damageMultiplier"));
                 if (a.getConfig().getWorld(e.getEntity().getWorld()).getBoolean("mobs.zombies.effects.hunger")) {
                     ((Player) e.getEntity()).addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 40, 1));
                 }
@@ -56,21 +59,22 @@ public class PlayerDamaged implements Listener {
             }
         }
     }
+
     @EventHandler
     public void onPlayerDamaged(EntityDamageEvent e) {
         if (e.getEntityType() == EntityType.PLAYER) {
             if (a.worldEnabledFallout(e.getEntity().getWorld().getName())) {
-                
+
                 if (a.getRadiationManager().getPlayerRadiation((Player) e.getEntity()) >= 10) {
                     e.setDamage(e.getDamage() * 4);
-                }
-                else if (a.getRadiationManager().getPlayerRadiation((Player) e.getEntity()) >= 1) {
+                } else if (a.getRadiationManager().getPlayerRadiation((Player) e.getEntity()) >= 1) {
                     e.setDamage(e.getDamage() * 2);
                 }
             }
         }
     }
+
     public PlayerDamaged(Main a) {
         this.a = a;
-    } 
+    }
 }

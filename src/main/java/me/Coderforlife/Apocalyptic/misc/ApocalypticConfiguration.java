@@ -28,7 +28,8 @@ import java.io.File;
 import java.util.Map;
 
 /**
- * Wrapper class for YamlConfiguration. Provides Apocalyptic-specific services such as getting the world configuration section.
+ * Wrapper class for YamlConfiguration. Provides Apocalyptic-specific services
+ * such as getting the world configuration section.
  */
 public class ApocalypticConfiguration extends YamlConfiguration {
     public void update(JavaPlugin plugin) {
@@ -43,11 +44,13 @@ public class ApocalypticConfiguration extends YamlConfiguration {
                 this.createSection(s);
             this.set(s, vals.get(s));
         }
-        //plugin.saveConfig();
+        // plugin.saveConfig();
     }
+
     public ConfigurationSection getWorld(String world) {
-        return this.getConfigurationSection("worlds."+world);
+        return this.getConfigurationSection("worlds." + world);
     }
+
     public ConfigurationSection getWorld(World world) {
         return getWorld(world.getName());
     }

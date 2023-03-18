@@ -5,10 +5,7 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Drowned;
-import org.bukkit.entity.Husk;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Stray;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,18 +15,17 @@ import org.bukkit.inventory.ItemStack;
 import me.Coderforlife.Apocalyptic.Main;
 
 public class CustomDrops implements Listener {
-	
+
 	public List<String> mobs;
-	
+
 	@SuppressWarnings("unused")
 	private Main plugin;
-	
+
 	public CustomDrops(Main pl) {
 		this.plugin = pl;
 		Bukkit.getServer().getPluginManager().registerEvents(this, pl);
-		
-	}
 
+	}
 
 	@EventHandler
 	public void on(EntityDeathEvent e) {
@@ -45,27 +41,27 @@ public class CustomDrops implements Listener {
 			Random r = new Random();
 			int dropChances = r.nextInt(30);
 			switch (dropChances) {
-			case 1:
-				livingEntity.getWorld().dropItemNaturally(livingEntity.getLocation(), item1);
-				break;
-			case 2:
-				livingEntity.getWorld().dropItemNaturally(livingEntity.getLocation(), item2);
-				break;
-			case 3:
-				livingEntity.getWorld().dropItemNaturally(livingEntity.getLocation(), item3);
-				break;
-			case 4:
-				livingEntity.getWorld().dropItemNaturally(livingEntity.getLocation(), item4);
-				break;
-			case 5:
-				livingEntity.getWorld().dropItemNaturally(livingEntity.getLocation(), item5);
-				break;
-			case 6:
-				livingEntity.getWorld().dropItemNaturally(livingEntity.getLocation(), item6);
-				break;
-			case 7:
-				livingEntity.getWorld().dropItemNaturally(livingEntity.getLocation(), item7);
-				break;
+				case 1:
+					livingEntity.getWorld().dropItemNaturally(livingEntity.getLocation(), item1);
+					break;
+				case 2:
+					livingEntity.getWorld().dropItemNaturally(livingEntity.getLocation(), item2);
+					break;
+				case 3:
+					livingEntity.getWorld().dropItemNaturally(livingEntity.getLocation(), item3);
+					break;
+				case 4:
+					livingEntity.getWorld().dropItemNaturally(livingEntity.getLocation(), item4);
+					break;
+				case 5:
+					livingEntity.getWorld().dropItemNaturally(livingEntity.getLocation(), item5);
+					break;
+				case 6:
+					livingEntity.getWorld().dropItemNaturally(livingEntity.getLocation(), item6);
+					break;
+				case 7:
+					livingEntity.getWorld().dropItemNaturally(livingEntity.getLocation(), item7);
+					break;
 			}
 		}
 	}

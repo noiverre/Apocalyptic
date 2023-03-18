@@ -33,17 +33,18 @@ import org.bukkit.inventory.ItemStack;
  */
 public class PlayerEat implements Listener {
     private final Main a;
+
     @EventHandler
     public void onPlayerEat(final PlayerItemConsumeEvent e) {
-    	boolean isCure = false;
+        boolean isCure = false;
         for (String s : a.getConfig().getStringList("radiationCures")) {
-        	if (e.getItem().getType().equals(Material.matchMaterial(s))) {
-        		isCure = true;
-        		break;
-        	}
+            if (e.getItem().getType().equals(Material.matchMaterial(s))) {
+                isCure = true;
+                break;
+            }
         }
         if (isCure) {
-        	a.getRadiationManager().setPlayerRadiation(e.getPlayer(), 0.0);
+            a.getRadiationManager().setPlayerRadiation(e.getPlayer(), 0.0);
         }
         if (a.getRadiationManager().getPlayerRadiation(e.getPlayer()) >= 6.0 && !e.isCancelled()) {
             final int oldLevel = e.getPlayer().getFoodLevel();
@@ -51,13 +52,16 @@ public class PlayerEat implements Listener {
                 @Override
                 public void run() {
                     e.getPlayer().setFoodLevel(oldLevel);
-                    Item dropped = e.getPlayer().getWorld().dropItem(e.getPlayer().getLocation(), new ItemStack(Material.ROTTEN_FLESH));
-                    dropped.setVelocity(e.getPlayer().getLocation().add(0, 1, 0).getDirection().normalize().multiply(1));
+                    Item dropped = e.getPlayer().getWorld().dropItem(e.getPlayer().getLocation(),
+                            new ItemStack(Material.ROTTEN_FLESH));
+                    dropped.setVelocity(
+                            e.getPlayer().getLocation().add(0, 1, 0).getDirection().normalize().multiply(1));
                 }
             }, 3);
         }
-        
+
     }
+
     public PlayerEat(Main a) {
         this.a = a;
     }

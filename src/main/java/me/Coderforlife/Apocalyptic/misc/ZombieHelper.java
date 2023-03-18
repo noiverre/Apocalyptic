@@ -32,7 +32,7 @@ public class ZombieHelper {
 		int y = l.getBlockY();
 		int z = l.getBlockZ();
 		boolean playerTooClose = false;
-		
+
 		for (Player p : w.getEntitiesByClass(Player.class)) {
 			if (p.getLocation().distance(l) < 16) {
 				playerTooClose = true;

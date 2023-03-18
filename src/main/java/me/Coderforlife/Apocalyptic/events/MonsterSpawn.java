@@ -53,7 +53,6 @@ public class MonsterSpawn implements Listener {
 
             // Create a map to store the number of spawns for each player
             HashMap<Player, Integer> spawnCount = new HashMap<>();
-
             for (Player player : Bukkit.getOnlinePlayers()) {
                 spawnCount.put(player, 0);
             }
