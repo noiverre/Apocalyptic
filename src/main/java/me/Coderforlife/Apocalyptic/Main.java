@@ -65,7 +65,6 @@ public class Main extends JavaPlugin {
     private Messages messages;
 
     private static final String texturePack = "http://www.curseforge.com/media/files/769/14/apocalyptic_texture_pack.zip";
-    
     private static final String METADATA_KEY = "radiation";
 
     private ItemStack hazmatHood;
@@ -73,32 +72,35 @@ public class Main extends JavaPlugin {
     private ItemStack hazmatPants;
     private ItemStack hazmatBoots;
     @SuppressWarnings("unused")
-	private CustomDrops drops;
+    private CustomDrops drops;
 
     private RadiationManager rads;
 
     private ApocalypticConfiguration cachedConfig;
     private boolean recacheConfig;
-    
-    
+
     @Override
-    public void onEnable(){
-    	drops = new CustomDrops(this);
-    	rads = new RadiationManager(this);
-    	messages = new Messages(this);
-        //acidRain.setCustomName("Acid Rain");
+    public void onEnable() {
+        drops = new CustomDrops(this);
+        rads = new RadiationManager(this);
+        messages = new Messages(this);
+        // acidRain.setCustomName("Acid Rain");
         log = getLogger();
         rand = new Random();
         wg = getWorldGuard();
-        
-        hazmatHood = Util.setName(new ItemStack(Material.CHAINMAIL_HELMET, 1), ChatColor.RESET + getMessages().getCaption("gasMask"));
-        hazmatSuit = Util.setName(new ItemStack(Material.CHAINMAIL_CHESTPLATE, 1), ChatColor.RESET + getMessages().getCaption("hazmatSuit"));
-        hazmatPants = Util.setName(new ItemStack(Material.CHAINMAIL_LEGGINGS, 1), ChatColor.RESET + getMessages().getCaption("hazmatPants"));
-        hazmatBoots = Util.setName(new ItemStack(Material.CHAINMAIL_BOOTS, 1), ChatColor.RESET + getMessages().getCaption("hazmatBoots"));
-        
+
+        hazmatHood = Util.setName(new ItemStack(Material.CHAINMAIL_HELMET, 1),
+                ChatColor.RESET + getMessages().getCaption("gasMask"));
+        hazmatSuit = Util.setName(new ItemStack(Material.CHAINMAIL_CHESTPLATE, 1),
+                ChatColor.RESET + getMessages().getCaption("hazmatSuit"));
+        hazmatPants = Util.setName(new ItemStack(Material.CHAINMAIL_LEGGINGS, 1),
+                ChatColor.RESET + getMessages().getCaption("hazmatPants"));
+        hazmatBoots = Util.setName(new ItemStack(Material.CHAINMAIL_BOOTS, 1),
+                ChatColor.RESET + getMessages().getCaption("hazmatBoots"));
+
         if (wg == null) {
         }
-        
+
         if (!getDataFolder().exists()) {
             if (!getDataFolder().mkdir()) {
                 log.severe("Cannot create data folder. Expect terrible errors.");
@@ -109,13 +111,12 @@ public class Main extends JavaPlugin {
             saveDefaultConfig();
         }
 
-        
-        //CommandExecutors
+        // CommandExecutors
         getCommand("radiation").setExecutor(new RadiationCommandExecutor(this));
         getCommand("apocalyptic").setExecutor(new ApocalypticCommandExecutor(this));
         getCommand("hazmat").setExecutor(new HazmatCommandExecutor(this));
 
-        //Register Listeners
+        // Register Listeners
         getServer().getPluginManager().registerEvents(new PlayerSpawn(this), this);
         getServer().getPluginManager().registerEvents(new MonsterSpawn(this), this);
         getServer().getPluginManager().registerEvents(new PlayerEat(this), this);
@@ -125,28 +126,33 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ZombieTarget(this), this);
         getServer().getPluginManager().registerEvents(new ZombieCombust(this), this);
         getServer().getPluginManager().registerEvents(new HardDespawn(this), this);
-        
+
     }
- 
+
     @Override
     public void onDisable() {
     }
+
     /**
      * 
      * @param name of the world
      * @return whether the named world has fallout enabled
      */
     public boolean worldEnabledFallout(String name) {
-        return getConfig().getConfigurationSection("worlds").getKeys(false).contains(name) && getConfig().getBoolean("worlds." + name + ".fallout"); //$NON-NLS-3$
+        return getConfig().getConfigurationSection("worlds").getKeys(false).contains(name)
+                && getConfig().getBoolean("worlds." + name + ".fallout"); //$NON-NLS-2$
     }
+
     /**
      * 
      * @param name of the world
      * @return whether the named world has zombie apocalypse enabled
      */
     public boolean worldEnabledZombie(String name) {
-        return getConfig().getConfigurationSection("worlds").getKeys(false).contains(name) && getConfig().getBoolean("worlds." + name + ".zombie"); //$NON-NLS-3$
+        return getConfig().getConfigurationSection("worlds").getKeys(false).contains(name)
+                && getConfig().getBoolean("worlds." + name + ".zombie"); //$NON-NLS-2$
     }
+
     /**
      * 
      * @param p The player
@@ -154,24 +160,36 @@ public class Main extends JavaPlugin {
      */
     public boolean playerWearingHazmatSuit(Player p) {
         EntityEquipment e = p.getEquipment();
-        boolean helmet =  e.getHelmet() != null && e.getHelmet().hasItemMeta() && e.getHelmet().getItemMeta().hasDisplayName() && (e.getHelmet().getItemMeta().getDisplayName().startsWith(ChatColor.RESET + getMessages().getCaption("gasMask")) || e.getHelmet().getItemMeta().getDisplayName().startsWith(ChatColor.RESET + getMessages().getCaption("hazmat")));
-        boolean chest =  e.getChestplate() != null && e.getChestplate().hasItemMeta() && e.getChestplate().getItemMeta().hasDisplayName() && e.getChestplate().getItemMeta().getDisplayName().startsWith(ChatColor.RESET + getMessages().getCaption("hazmat"));
-        boolean legs =  e.getLeggings() != null && e.getLeggings().hasItemMeta() && e.getLeggings().getItemMeta().hasDisplayName() && e.getLeggings().getItemMeta().getDisplayName().startsWith(ChatColor.RESET + getMessages().getCaption("hazmat"));
-        boolean boots =  e.getBoots() != null && e.getBoots().hasItemMeta() && e.getBoots().getItemMeta().hasDisplayName() && e.getBoots().getItemMeta().getDisplayName().startsWith(ChatColor.RESET + getMessages().getCaption("hazmat"));
+        boolean helmet = e.getHelmet() != null && e.getHelmet().hasItemMeta()
+                && e.getHelmet().getItemMeta().hasDisplayName()
+                && (e.getHelmet().getItemMeta().getDisplayName()
+                        .startsWith(ChatColor.RESET + getMessages().getCaption("gasMask"))
+                        || e.getHelmet().getItemMeta().getDisplayName()
+                                .startsWith(ChatColor.RESET + getMessages().getCaption("hazmat")));
+        boolean chest = e.getChestplate() != null && e.getChestplate().hasItemMeta()
+                && e.getChestplate().getItemMeta().hasDisplayName() && e.getChestplate().getItemMeta().getDisplayName()
+                        .startsWith(ChatColor.RESET + getMessages().getCaption("hazmat"));
+        boolean legs = e.getLeggings() != null && e.getLeggings().hasItemMeta()
+                && e.getLeggings().getItemMeta().hasDisplayName() && e.getLeggings().getItemMeta().getDisplayName()
+                        .startsWith(ChatColor.RESET + getMessages().getCaption("hazmat"));
+        boolean boots = e.getBoots() != null && e.getBoots().hasItemMeta()
+                && e.getBoots().getItemMeta().hasDisplayName() && e.getBoots().getItemMeta().getDisplayName()
+                        .startsWith(ChatColor.RESET + getMessages().getCaption("hazmat"));
         return helmet && chest && legs && boots;
     }
 
-    
     /**
      * Sends apocalyptic texture pack to a player.
+     * 
      * @param p the player which to send the texture pack to
      */
     public void sendApocalypticTexturePack(Player p) {
-        if (!getConfig().getBoolean("worlds."+p.getWorld().getName() + ".texturepack")) {
+        if (!getConfig().getBoolean("worlds." + p.getWorld().getName() + ".texturepack")) {
             return;
         }
         p.setResourcePack(texturePack);
     }
+
     @Override
     public ApocalypticConfiguration getConfig() {
         if (cachedConfig == null || recacheConfig) {
@@ -184,54 +202,57 @@ public class Main extends JavaPlugin {
             }
             cachedConfig = config;
             return config;
-        }
-        else {
+        } else {
             return cachedConfig;
         }
     }
+
     /**
      * 
-     * @param p a player
+     * @param p   a player
      * @param cmd String alias of a command
      * @return whether the specified player can perform the command
      */
     public boolean canDoCommand(CommandSender p, String cmd) {
-    	if (p == getServer().getConsoleSender()) {
-    		return true;
-    	}
-    	boolean usePerms = getConfig().getBoolean("meta.permissions");
-    	if (usePerms) {
-    		return (cmd.equals("radiation.self") && p.hasPermission("apocalyptic.radiation.self")) ||
-    				(cmd.equals("radiation.other") && p.hasPermission("apocalyptic.radiation.other")) ||
-    				(cmd.equals("radiation.change") && p.hasPermission("apocalyptic.radiation.change.self"))  ||
-    				(cmd.equals("apocalyptic.radhelp") && p.hasPermission("apocalyptic.help.radiation")) ||
-    				(cmd.equals("apocalyptic.stop") && p.hasPermission("apocalyptic.admin.stop")) ||
-    				(cmd.equals("apocalyptic.reload") && p.hasPermission("apocalyptic.admin.reload") ||
-                    (cmd.equals("hazmatArmor.self") && p.hasPermission("apocalyptic.hazmatArmor.self")) ||
-                    (cmd.equals("hazmatArmor.other") && p.hasPermission("apocalyptic.hazmatArmor.other")));
-    	}
-    	else {
-            return !(cmd.equals("radiation.other") || cmd.equals("radiation.change") || cmd.equals("apocalyptic.stop") || cmd.equals("apocalyptic.reload") || cmd.equals("hazmatArmor.self") || cmd.equals("hazmatArmor.other")) || p.isOp();
+        if (p == getServer().getConsoleSender()) {
+            return true;
+        }
+        boolean usePerms = getConfig().getBoolean("meta.permissions");
+        if (usePerms) {
+            return (cmd.equals("radiation.self") && p.hasPermission("apocalyptic.radiation.self")) ||
+                    (cmd.equals("radiation.other") && p.hasPermission("apocalyptic.radiation.other")) ||
+                    (cmd.equals("radiation.change") && p.hasPermission("apocalyptic.radiation.change.self")) ||
+                    (cmd.equals("apocalyptic.radhelp") && p.hasPermission("apocalyptic.help.radiation")) ||
+                    (cmd.equals("apocalyptic.stop") && p.hasPermission("apocalyptic.admin.stop")) ||
+                    (cmd.equals("apocalyptic.reload") && p.hasPermission("apocalyptic.admin.reload") ||
+                            (cmd.equals("hazmatArmor.self") && p.hasPermission("apocalyptic.hazmatArmor.self")) ||
+                            (cmd.equals("hazmatArmor.other") && p.hasPermission("apocalyptic.hazmatArmor.other")));
+        } else {
+            return !(cmd.equals("radiation.other") || cmd.equals("radiation.change") || cmd.equals("apocalyptic.stop")
+                    || cmd.equals("apocalyptic.reload") || cmd.equals("hazmatArmor.self")
+                    || cmd.equals("hazmatArmor.other")) || p.isOp();
         }
     }
+
     private Plugin getWorldGuard() {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
-     
+
         // WorldGuard may not be loaded
         if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
             return null; // Maybe you want throw an exception instead
         }
-     
+
         return plugin;
     }
 
     /**
      * Get the language file.
+     * 
      * @return The language file.
      */
-	public Messages getMessages() {
-		return messages;
-	}
+    public Messages getMessages() {
+        return messages;
+    }
 
     /**
      * Recache the configuration file.
@@ -242,6 +263,7 @@ public class Main extends JavaPlugin {
 
     /**
      * Get the metadata key used to save radiation to players.
+     * 
      * @return The metadata key.
      */
     public String getMetadataKey() {
@@ -250,6 +272,7 @@ public class Main extends JavaPlugin {
 
     /**
      * Get the radiation manager, used for saving, adding, and setting radiation.
+     * 
      * @return The Radiation Manager object.
      */
     public RadiationManager getRadiationManager() {
@@ -258,32 +281,40 @@ public class Main extends JavaPlugin {
 
     /**
      * Get the Gas Mask itemstack
+     * 
      * @return an itemstack with 1 Gas Mask.
      */
     public ItemStack getHazmatHood() {
         return hazmatHood;
     }
+
     /**
      * Get the Hazmat Suit itemstack
+     * 
      * @return an itemstack with 1 Hazmat Suit.
      */
     public ItemStack getHazmatSuit() {
         return hazmatSuit;
     }
+
     /**
      * Get the Hazmat Leggings itemstack
+     * 
      * @return an itemstack with 1 Hazmat Leggings.
      */
     public ItemStack getHazmatPants() {
         return hazmatPants;
     }
+
     /**
      * Get the Hazmat Boots itemstack
+     * 
      * @return an itemstack with 1 Hazmat Boots.
      */
     public ItemStack getHazmatBoots() {
         return hazmatBoots;
     }
+
     public Random getRandom() {
         return rand;
     }

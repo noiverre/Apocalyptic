@@ -32,26 +32,18 @@ public class ZombieHelper {
 		int y = l.getBlockY();
 		int z = l.getBlockZ();
 		boolean playerTooClose = false;
-		int zombieCount = 0;
+		
 		for (Player p : w.getEntitiesByClass(Player.class)) {
 			if (p.getLocation().distance(l) < 16) {
 				playerTooClose = true;
 				break;
 			}
 		}
-		for (Zombie zombie : w.getEntitiesByClass(Zombie.class)) {
-			if (zombie.getLocation().distance(l) < 16) {
-				zombieCount++;
-				if (zombieCount >= 16) {
-					return false;
-				}
-			}
-		}
-		return 
-				w.getBlockAt(l).getLightLevel() <= 7
-                && !w.getBlockAt(x, y, z).getType().isTransparent()
-				&& w.getBlockAt(x, y+1, z).getType().isTransparent() 
-				&& w.getBlockAt(x, y+2, z).getType().isTransparent()
-                && !playerTooClose;
+
+		return w.getBlockAt(l).getLightLevel() <= 7
+				&& !w.getBlockAt(x, y, z).getType().isTransparent()
+				&& w.getBlockAt(x, y + 1, z).getType().isTransparent()
+				&& w.getBlockAt(x, y + 2, z).getType().isTransparent()
+				&& !playerTooClose;
 	}
 }

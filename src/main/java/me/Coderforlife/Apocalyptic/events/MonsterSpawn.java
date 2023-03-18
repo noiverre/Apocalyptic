@@ -20,27 +20,17 @@
 package me.Coderforlife.Apocalyptic.events;
 
 import me.Coderforlife.Apocalyptic.*;
-import me.Coderforlife.Apocalyptic.misc.*;
-import me.Coderforlife.Apocalyptic.events.HardDespawn;
-import net.md_5.bungee.api.ChatColor;
-
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.*;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-import org.bukkit.inventory.EntityEquipment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.event.player.PlayerMoveEvent;
-
 
 /**
  *
@@ -48,15 +38,16 @@ import org.bukkit.event.player.PlayerMoveEvent;
  */
 public class MonsterSpawn implements Listener {
     private final Main a;
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onMonsterSpawn(CreatureSpawnEvent event) {
         if (event.getEntityType() == EntityType.ZOMBIE) {
             int spawnLimit = 256;
             int onlinePlayers = Bukkit.getOnlinePlayers().size();
-            int spawnPerPlayer = (int) Math.ceil(spawnLimit / (double) onlinePlayers);
+            int spawnPerPlayer = (int) Math.ceil(spawnLimit / onlinePlayers);
 
             // If there's only one player, make sure at least 16 zombie is spawned
-            if (onlinePlayers == 1 && spawnPerPlayer == 0) {
+            if (onlinePlayers == 1) {
                 spawnPerPlayer = 16;
             }
 
@@ -111,6 +102,7 @@ public class MonsterSpawn implements Listener {
         Block above = block.getRelative(BlockFace.UP);
         return block.getType() == Material.AIR && above.getType() == Material.AIR;
     }
+
     public MonsterSpawn(Main a) {
         this.a = a;
     }
