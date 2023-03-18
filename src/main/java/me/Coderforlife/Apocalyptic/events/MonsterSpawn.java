@@ -20,17 +20,33 @@
 package me.Coderforlife.Apocalyptic.events;
 
 import me.Coderforlife.Apocalyptic.*;
+
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.*;
+
+import me.Coderforlife.Apocalyptic.misc.ZombieHelper;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.Server;
+import org.bukkit.World;
+import org.bukkit.Bukkit;
+
 
 /**
  *
@@ -38,6 +54,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
  */
 public class MonsterSpawn implements Listener {
     private final Main a;
+
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onMonsterSpawn(CreatureSpawnEvent event) {
@@ -57,34 +74,52 @@ public class MonsterSpawn implements Listener {
                 spawnCount.put(player, 0);
             }
 
-            // Spawn zombies for each player
-            for (int i = 0; i < spawnPerPlayer; i++) {
-                Player leastSpawnedPlayer = null;
-                int leastSpawnCount = Integer.MAX_VALUE;
+            Location l = e.getLocation();
+            Zombie zom = (Zombie) e.getEntity();
+            zom.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(a.getConfig().getWorld(e.getEntity().getWorld()).getDouble("mobs.zombies.max-health"));
 
-                // Find the player with the least spawns
-                for (Player player : spawnCount.keySet()) {
-                    int count = spawnCount.get(player);
-                    if (count < leastSpawnCount) {
-                        leastSpawnedPlayer = player;
-                        leastSpawnCount = count;
+            if (e.getSpawnReason() != SpawnReason.CUSTOM && e.getSpawnReason() != SpawnReason.SPAWNER) {
+                int hordeSize = a.getRandom().nextInt(
+                        a.getConfig().getWorld(e.getEntity().getWorld()).getInt("mobs.zombies.hordeSize.max") -
+                                a.getConfig().getWorld(e.getEntity().getWorld()).getInt("mobs.zombies.hordeSize.min")) +
+                        a.getConfig().getWorld(e.getEntity().getWorld()).getInt("mobs.zombies.hordeSize.min");
+                int failedAttempts = 0;
+
+                // distribute zombies evenly among online players
+                Player[] players = Bukkit.getOnlinePlayers().toArray(new Player[0]);
+                int numPlayers = players.length;
+                int zombiesPerPlayer = hordeSize / numPlayers;
+                int extraZombies = hordeSize % numPlayers;
+                int index = 0;
+
+                for (int i = 0; i < numPlayers; i++) {
+                    int playerZombies = zombiesPerPlayer;
+                    if (extraZombies > 0) {
+                        playerZombies++;
+                        extraZombies--;
                     }
-                }
+                    Player player = players[index];
+                    index = (index + 1) % numPlayers;
 
-                // Increment the spawn count for the player
-                int count = spawnCount.get(leastSpawnedPlayer);
-                spawnCount.put(leastSpawnedPlayer, count + 1);
-
-                // Generate the spawn location
-                Location spawnLocation = getSpawnLocation(leastSpawnedPlayer);
-
-                // Spawn the zombie if the location is valid
-                if (canZombieSpawn(spawnLocation)) {
-                    event.getLocation().getWorld().spawnEntity(spawnLocation, EntityType.ZOMBIE);
+                    for (int j = 0; j < playerZombies; j++) {
+                        // TODO make point selection better
+                        int spotX = 7 - a.getRandom().nextInt(14);
+                        int spotZ = 7 - a.getRandom().nextInt(14);
+                        //int spotY = 3-a.getRandom().nextInt(6);
+                        Location spawnPoint = l.add(spotX, 0 /*spotY*/, spotZ);
+                        spawnPoint.setY(l.getWorld().getHighestBlockYAt(spotX, spotZ));
+                        if (!ZombieHelper.canZombieSpawn(spawnPoint) && failedAttempts <= 10) {
+                            failedAttempts++;
+                            continue;
+                        }
+                        failedAttempts = 0;
+                        Zombie zombie = (Zombie) l.getWorld().spawnEntity(spawnPoint, EntityType.ZOMBIE);
+                    }
                 }
             }
         }
     }
+
 
     private Location getSpawnLocation(Player player) {
         int spawnRadius = 16;
