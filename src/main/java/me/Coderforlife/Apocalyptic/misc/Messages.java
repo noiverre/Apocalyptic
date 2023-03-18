@@ -32,29 +32,26 @@ import me.Coderforlife.Apocalyptic.Main;
 
 public class Messages {
 	private Main plugin = null;
-	 
+
 	private File configFile = null;
 	private FileConfiguration config = null;
-	 
-	public Messages(Main plugin)
-	{
+
+	public Messages(Main plugin) {
 		this.plugin = plugin;
 		this.configFile = new File(this.plugin.getDataFolder(), "lang.yml");
-		 
+
 		this.saveDefault();
-		
+
 	}
-	 
-	public void saveDefault()
-	{
-		if (!this.configFile.exists())
-		{
+
+	public void saveDefault() {
+		if (!this.configFile.exists()) {
 			this.plugin.saveResource("lang.yml", false);
 		}
 		reload();
-		
-		
+
 	}
+
 	public void reload() {
 		config = new YamlConfiguration();
 		try {
@@ -70,23 +67,19 @@ public class Messages {
 			e.printStackTrace();
 		}
 	}
-	 
-	public String getCaption(String name)
-	{
+
+	public String getCaption(String name) {
 		return this.getCaption(name, false);
 	}
-	 
-	public String getCaption(String name, boolean color)
-	{
+
+	public String getCaption(String name, boolean color) {
 		String caption = this.config.getString(name);
-		if (caption == null)
-		{
-		this.plugin.getLogger().warning("Missing caption: " + name);
-		caption = "&c[missing caption]";
+		if (caption == null) {
+			this.plugin.getLogger().warning("Missing caption: " + name);
+			caption = "&c[missing caption]";
 		}
-		 
-		if (color)
-		{
+
+		if (color) {
 			caption = ChatColor.translateAlternateColorCodes('&', caption);
 		}
 		return caption;

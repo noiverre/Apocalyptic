@@ -20,22 +20,33 @@
 package me.Coderforlife.Apocalyptic.events;
 
 import me.Coderforlife.Apocalyptic.*;
+
+import java.util.HashMap;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.*;
+
 import me.Coderforlife.Apocalyptic.misc.ZombieHelper;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
+
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.Bukkit;
+
 
 /**
  *
@@ -44,14 +55,23 @@ import org.bukkit.Bukkit;
 public class MonsterSpawn implements Listener {
     private final Main a;
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onMonsterSpawn(CreatureSpawnEvent e) {
 
-        if (e.getEntityType() == EntityType.ZOMBIE && a.worldEnabledZombie(e.getLocation().getWorld().getName())) {
-            if (e.getEntity().getWorld().getEntitiesByClass(Zombie.class).size() >=
-                    a.getConfig().getWorld(e.getLocation().getWorld()).getInt("mobs.zombies.spawnLimit")) {
-                e.setCancelled(true);
-                return;
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onMonsterSpawn(CreatureSpawnEvent event) {
+        if (event.getEntityType() == EntityType.ZOMBIE) {
+            int spawnLimit = 256;
+            int onlinePlayers = Bukkit.getOnlinePlayers().size();
+            int spawnPerPlayer = (int) Math.ceil(spawnLimit / onlinePlayers);
+
+            // If there's only one player, make sure at least 16 zombie is spawned
+            if (onlinePlayers == 1) {
+                spawnPerPlayer = 16;
+            }
+
+            // Create a map to store the number of spawns for each player
+            HashMap<Player, Integer> spawnCount = new HashMap<>();
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                spawnCount.put(player, 0);
             }
 
             Location l = e.getLocation();
@@ -98,6 +118,23 @@ public class MonsterSpawn implements Listener {
                 }
             }
         }
+    }
+
+
+    private Location getSpawnLocation(Player player) {
+        int spawnRadius = 16;
+        int spawnX = player.getLocation().getBlockX() + (int) (Math.random() * spawnRadius * 2) - spawnRadius;
+        int spawnZ = player.getLocation().getBlockZ() + (int) (Math.random() * spawnRadius * 2) - spawnRadius;
+        Location spawnLocation = new Location(player.getWorld(), spawnX, 0, spawnZ);
+        int spawnY = player.getWorld().getHighestBlockYAt(spawnLocation);
+        spawnLocation.setY(spawnY);
+        return spawnLocation;
+    }
+
+    private boolean canZombieSpawn(Location location) {
+        Block block = location.getBlock();
+        Block above = block.getRelative(BlockFace.UP);
+        return block.getType() == Material.AIR && above.getType() == Material.AIR;
     }
 
     public MonsterSpawn(Main a) {
